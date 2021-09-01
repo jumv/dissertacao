@@ -8,12 +8,13 @@ library(MASS)
 library(pscl)
 library(vcd)
 library(pglm)
+library(stargazer)
 
 future::plan(multiprocess)
 
 
 # lendo os dados
-dados <- read_csv('src/data/df_join.csv')
+dados <- read_csv('data/models/df_join.csv')
 
 # funcao para criar tabela de percentis de uma coluna
 create_df_percentile <- function(intervalo,coluna,dados){
@@ -45,32 +46,50 @@ check_percentil <- function(value,df_percentile){
 fast_check_percentil <- function(value,max,min){
   values <- c(which(value > min),which(value < max))
   ind <- which(duplicated(values))
-  paste(names(c(values[ind - 1],values[ind])),collapse = '-')
+  paste(names(c(values[ind - 1],values[ind])),collapse = '_')
 }
 
 
 
 
 # calculando percentis da temperatura e chuva
-df_percent_temp <- create_df_percentile(0.05,temp,dados)
-df_percent_precip <- create_df_percentile(0.05,avg_precip,dados)
+df_percent_temp <- create_df_percentile(0.1,temp,dados)
+df_percent_precip <- create_df_percentile(0.2,avg_precip,dados)
 
 # criando as dummys na base
 dados$dummy_temp <- dados$temp %>% future_map_chr(fast_check_percentil,df_percent_temp$max,df_percent_temp$min) %>% as.factor()
 dados$dummy_avg_precip <- dados$avg_precip %>% future_map_chr(fast_check_percentil,
                                                               df_percent_precip$max,
                                                               df_percent_precip$min) %>% as.factor()
+# # arredondando
+# df_percent_precip$min <- round(df_percent_precip$min,1)
+# df_percent_precip$max <- round(df_percent_precip$max,1)
+# df_percent_temp$min <- round(df_percent_temp$min,1)
+# df_percent_temp$max <- round(df_percent_temp$max,1)
 
-# criando variavel de tendencia linear
-df_trend <- tibble( 
-  data = dados$data %>% unique(),
-  trend = 1:(dados$data %>% unique() %>% length())
-) 
-dados <- dados %>% left_join(df_trend)
+
+# # fazendo join com intervalos de graus e precipitacao
+# dados <- dados %>% 
+#   left_join(df_percent_temp %>% unite('dummy_temp_celcius',min:max),by = c('dummy_temp' = 'intervalo'))
+# dados <- dados %>% 
+#   left_join(df_percent_precip %>% unite('dummy_precip_milimetro',min:max),by = c('dummy_avg_precip' = 'intervalo'))
+
+# transformando para factor
+# dados$dummy_temp_celcius <- as.factor(dados$dummy_temp_celcius)
+# dados$dummy_precip_milimetro <- as.factor(dados$dummy_precip_milimetro)
+
+
+# # criando variavel de tendencia linear
+# df_trend <- tibble( 
+#   data = dados$data %>% unique(),
+#   trend = 1:(dados$data %>% unique() %>% length())
+# ) 
+# dados <- dados %>% left_join(df_trend)
 
 
 # fazendo code do municipio virar factor
 dados$code_muni <- as.factor(dados$code_muni)
+
 
 # fazendo modelo de regressao multipla
 model_simple <- lm(feminicidio ~ dummy_temp + dummy_avg_precip,
@@ -83,14 +102,14 @@ model_fixed_effects <- plm(feminicidio ~ dummy_temp + dummy_avg_precip,
                           data = dados)
 
 # fazendo modelo de poisson
-model_poisson <- pglm(
+model_poisson <- glm(
   feminicidio ~ dummy_temp + dummy_avg_precip,
   family = 'poisson', data = dados
 )
 
 # fazendo modelo de efeitos fixos de poisson
 model_fixed_effects_poisson <- pglm(
-  feminicidio ~ dummy_temp + dummy_avg_precip,
+  feminicidio ~ dummy_temp_celcius + dummy_avg_precip,
   index = c("data", "code_muni"), 
   effect = "twoways", model = "within",
   family = poisson,
@@ -101,11 +120,28 @@ model_fixed_effects_poisson <- pglm(
 model_bn <- glm.nb(feminicidio ~ dummy_temp + dummy_avg_precip,
                    data = dados)
 
+# salvando os modelos
+write_rds(model_simple,file = 'models/simple_regression.rds')
+write_rds(model_fixed_effects,file = 'models/linear_fixed_effects.rds')
+write_rds(model_poisson,file = 'models/simple_poisson.rds')
+write_rds(model_bn,file = 'models/bn.rds')
+write_rds(model_fixed_effects_poisson ,file = 'models/poisson_fixed_effects.rds')
+
+# carregando
+# model_simple <- read_rds(file = 'models/simple_regression.rds')
+# model_fixed_effects <- read_rds(file = 'models/linear_fixed_effects.rds')
+# model_poisson <- read_rds(file = 'models/simple_poisson.rds')
+# model_bn <- read_rds(file = 'models/bn.rds')
+# model_fixed_effects_poisson <- read_rds(file = 'models/poisson_fixed_effects.rds')
+
+
+# renomeando covariaveis
+precip <- df_percent_precip %>% mutate(min = round(min),max = round(max)) %>% unite('precip',min:max,sep = '-') %>% pull(precip) %>% paste('Milimetros')
+temp <- df_percent_temp %>% mutate(min = round(min),max = round(max)) %>% unite('temp',min:max,sep = '-') %>% pull(temp) %>% paste('Celcius')
+
 
 # estatisticas
-summary(model_simple)
-summary(model_fixed_effects)
-summary(model_poisson)
-summary(model_fixed_effects_poisson)
-summary(model_bn)
+stargazer(model_simple, model_fixed_effects,model_poisson,model_bn, title="Results", align=TRUE,type="text",
+          covariate.labels = c(temp,precip),
+          out = 'results/results.png')
 
