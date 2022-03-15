@@ -9,6 +9,7 @@ library(pscl)
 library(vcd)
 library(pglm)
 library(stargazer)
+library(fixest)
 
 future::plan(multiprocess)
 
@@ -53,8 +54,8 @@ fast_check_percentil <- function(value,max,min){
 
 
 # calculando percentis da temperatura e chuva
-df_percent_temp <- create_df_percentile(0.1,temp,dados)
-df_percent_precip <- create_df_percentile(0.2,avg_precip,dados)
+df_percent_temp <- create_df_percentile(0.2,temp,dados)
+df_percent_precip <- create_df_percentile(0.1,avg_precip,dados)
 
 # criando as dummys na base
 dados$dummy_temp <- dados$temp %>% future_map_chr(fast_check_percentil,df_percent_temp$max,df_percent_temp$min) %>% as.factor()
@@ -62,86 +63,92 @@ dados$dummy_avg_precip <- dados$avg_precip %>% future_map_chr(fast_check_percent
                                                               df_percent_precip$max,
                                                               df_percent_precip$min) %>% as.factor()
 # # arredondando
-# df_percent_precip$min <- round(df_percent_precip$min,1)
-# df_percent_precip$max <- round(df_percent_precip$max,1)
-# df_percent_temp$min <- round(df_percent_temp$min,1)
-# df_percent_temp$max <- round(df_percent_temp$max,1)
+df_percent_precip$min <- round(df_percent_precip$min,1)
+df_percent_precip$max <- round(df_percent_precip$max,1)
+df_percent_temp$min <- round(df_percent_temp$min,1)
+df_percent_temp$max <- round(df_percent_temp$max,1)
 
 
-# # fazendo join com intervalos de graus e precipitacao
-# dados <- dados %>% 
-#   left_join(df_percent_temp %>% unite('dummy_temp_celcius',min:max),by = c('dummy_temp' = 'intervalo'))
-# dados <- dados %>% 
-#   left_join(df_percent_precip %>% unite('dummy_precip_milimetro',min:max),by = c('dummy_avg_precip' = 'intervalo'))
+# fazendo join com intervalos de graus e precipitacao
+dados <- dados %>%
+  left_join(df_percent_temp %>% unite('dummy_temp_celcius',min:max),by = c('dummy_temp' = 'intervalo'))
+dados <- dados %>%
+  left_join(df_percent_precip %>% unite('dummy_precip_milimetro',min:max),by = c('dummy_avg_precip' = 'intervalo'))
 
 # transformando para factor
-# dados$dummy_temp_celcius <- as.factor(dados$dummy_temp_celcius)
-# dados$dummy_precip_milimetro <- as.factor(dados$dummy_precip_milimetro)
+dados$dummy_temp_celcius <- as.factor(dados$dummy_temp_celcius)
+dados$dummy_precip_milimetro <- as.factor(dados$dummy_precip_milimetro)
 
 
-# # criando variavel de tendencia linear
-# df_trend <- tibble( 
-#   data = dados$data %>% unique(),
-#   trend = 1:(dados$data %>% unique() %>% length())
-# ) 
-# dados <- dados %>% left_join(df_trend)
+# criando variavel de tendencia linear
+df_trend <- tibble(
+  data = dados$data %>% unique(),
+  trend = 1:(dados$data %>% unique() %>% length())
+)
+dados <- dados %>% left_join(df_trend)
 
 
 # fazendo code do municipio virar factor
 dados$code_muni <- as.factor(dados$code_muni)
 
 
-# fazendo modelo de regressao multipla
-model_simple <- lm(feminicidio ~ dummy_temp + dummy_avg_precip,
-                   data = dados)
+## FAZENDO COM FIXEST
 
-# fazendo modelo de regressao com efeitos fixos de tempo e municipio
-model_fixed_effects <- plm(feminicidio ~ dummy_temp + dummy_avg_precip,
-                          index = c("data", "code_muni"), 
-                          effect = "twoways", model = "within",
-                          data = dados)
+### sem efeito fixo 
 
-# fazendo modelo de poisson
-model_poisson <- glm(
-  feminicidio ~ dummy_temp + dummy_avg_precip,
-  family = 'poisson', data = dados
-)
+#### OLS
+model_ols <- feols(feminicidio  ~ dummy_temp_celcius + dummy_precip_milimetro,dados)
 
-# fazendo modelo de efeitos fixos de poisson
-model_fixed_effects_poisson <- pglm(
-  feminicidio ~ dummy_temp_celcius + dummy_avg_precip,
-  index = c("data", "code_muni"), 
-  effect = "twoways", model = "within",
-  family = poisson,
-  data = dados
-)
+#### Poisson 
+model_poisson <- fepois(feminicidio  ~ dummy_temp_celcius + dummy_precip_milimetro, dados)
 
-# fazendo modelo binomial negativo
-model_bn <- glm.nb(feminicidio ~ dummy_temp + dummy_avg_precip,
-                   data = dados)
+#### Binomial Negativo
+model_bn <- fenegbin(feminicidio  ~ dummy_temp_celcius + dummy_precip_milimetro, dados)
 
-# salvando os modelos
-write_rds(model_simple,file = 'models/simple_regression.rds')
-write_rds(model_fixed_effects,file = 'models/linear_fixed_effects.rds')
-write_rds(model_poisson,file = 'models/simple_poisson.rds')
-write_rds(model_bn,file = 'models/bn.rds')
-write_rds(model_fixed_effects_poisson ,file = 'models/poisson_fixed_effects.rds')
+### Com efeitos fixos
 
-# carregando
-# model_simple <- read_rds(file = 'models/simple_regression.rds')
-# model_fixed_effects <- read_rds(file = 'models/linear_fixed_effects.rds')
-# model_poisson <- read_rds(file = 'models/simple_poisson.rds')
-# model_bn <- read_rds(file = 'models/bn.rds')
-# model_fixed_effects_poisson <- read_rds(file = 'models/poisson_fixed_effects.rds')
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ dummy_temp_celcius + dummy_precip_milimetro | data + code_muni, dados)
+
+#### Poisson 
+model_poisson_fixed <- fepois(feminicidio  ~ dummy_temp_celcius + dummy_precip_milimetro | data + code_muni, dados)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ dummy_temp_celcius + dummy_precip_milimetro | data + code_muni, dados)
 
 
-# renomeando covariaveis
-precip <- df_percent_precip %>% mutate(min = round(min),max = round(max)) %>% unite('precip',min:max,sep = '-') %>% pull(precip) %>% paste('Milimetros')
-temp <- df_percent_temp %>% mutate(min = round(min),max = round(max)) %>% unite('temp',min:max,sep = '-') %>% pull(temp) %>% paste('Celcius')
+# Tabela sem efeitos fixos
+etable(model_ols,model_poisson,model_bn)
+
+# Tabela com efeitos fixos
+etable(model_ols_fixed,model_poisson_fixed,model_bn_fixed)
 
 
-# estatisticas
-stargazer(model_simple, model_fixed_effects,model_poisson,model_bn, title="Results", align=TRUE,type="text",
-          covariate.labels = c(temp,precip),
-          out = 'results/results.png')
+## Testando com lag
 
+#### OLS
+model_ols <- feols(feminicidio  ~ lag(dummy_temp_celcius) + lag(dummy_precip_milimetro),dados)
+
+#### Poisson 
+model_poisson <- fepois(feminicidio  ~ lag(dummy_temp_celcius) + lag(dummy_precip_milimetro), dados)
+
+#### Binomial Negativo
+model_bn <- fenegbin(feminicidio  ~ lag(dummy_temp_celcius) + lag(dummy_precip_milimetro), dados)
+
+### Com efeitos fixos
+
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ lag(dummy_temp_celcius) + lag(dummy_precip_milimetro)| data + code_muni, dados)
+
+#### Poisson 
+model_poisson_fixed <- fepois(feminicidio  ~ lag(dummy_temp_celcius) + lag(dummy_precip_milimetro)| data + code_muni, dados)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ lag(dummy_temp_celcius) + lag(dummy_precip_milimetro)| data + code_muni, dados)
+
+
+# Tabela sem efeitos fixos
+etable(model_ols,model_poisson,model_bn)
+
+# Tabela com efeitos fixos
+etable(model_ols_fixed,model_poisson_fixed,model_bn_fixed)

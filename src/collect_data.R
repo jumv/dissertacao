@@ -13,7 +13,7 @@ library(sidrar)
 
 # Obtendo os dados do sus
 df <- fetch_datasus(year_start = 2000, year_end = 2019,information_system = "SIM-DO",
-                        vars = c('DTOBITO','SEXO','LOCOCOR','CODMUNOCOR','CIRCOBITO','IDADE',
+                        vars = c('DTOBITO','SEXO','LOCOCOR','CODMUNOCOR',
                                  'RACACOR','ESTCIV','ESC'))
 
 # lendo via disco casos ja tenhamos os dados
