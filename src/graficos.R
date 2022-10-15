@@ -2,6 +2,7 @@
 library(tidyverse)
 library(geobr)
 library(ggthemes)
+library(lubridate)
 
 # lendo os dados
 df_feminicide <- read_csv('data/femicide/df_feminicidio.csv')
@@ -25,6 +26,7 @@ df_pop_state <- df_pop %>% select(`2017`,cod_mun,code_state) %>%
 df_feminicide_state <- df_feminicide %>%
   left_join(df_code_state,by = c('code_state' = 'code'))
 
+df_feminicide_state %>% write_csv('df_feminicidio_estado.csv')
 
 # Proporcao de homicidio por estado
 d <- df_feminicide_state %>% 
@@ -66,7 +68,8 @@ d %>%
   scale_fill_economist() +
   labs(title = 'Total de feminicidios por cor',
        y = '',x = '',
-       caption = 'Fonte: Do Autor (SUS)') +
+       caption = 'Notas: O gráfico ilustra a percentagem por raça de mulheres mortas em casa no ano de 2017
+                 Fonte: SUS') +
   geom_text(aes(label=paste(round(prop,1),'%',sep = '')),hjust = -0.1,
             colour = "black", size = 5) +
   theme(panel.grid.major = element_blank(),
@@ -79,10 +82,18 @@ d %>%
 d <- df_feminicide_state %>%
   count(ESC) %>%
   replace_na(list(ESC = 'Nao Informado')) %>%
-  mutate(prop = (n/sum(n))*100)
+  left_join(
+    tibble(
+      ESC = c('0','1','2','3','4','5','9','Nao Informado'),
+      anos_escolaridade = c('Nao Informado','0 Anos','1-3 Anos','4-7 Anos','7-9 Anos','12 Anos ou mais','9-11 Anos','Nao Informado')
+    )
+  ) %>%
+  group_by(anos_escolaridade) %>% summarise(total = sum(n)) %>%
+  mutate(prop = (total/sum(total))*100)
+
 
 d %>%
-  ggplot(aes(x = reorder(ESC,prop),y = prop,fill = ESC)) +
+  ggplot(aes(x = reorder(anos_escolaridade,prop),y = prop,fill = anos_escolaridade)) +
   geom_bar(stat = 'identity') +
   coord_flip() +
   theme_economist() +
@@ -91,7 +102,9 @@ d %>%
             colour = "black", size = 5) +
   labs(title = 'Total de feminicidios por anos de escolaridade',
        y = '',x = '',
-       caption = 'Fonte: Do Autor (SUS)') +
+       caption = '
+       O gráfico ilustra a porcentagem por anos de escolaridade das mulheres mortas em casa no ano de 2017
+       Fonte: SUS') +
   theme(panel.grid.major = element_blank(),
         axis.line=element_blank(),
         plot.title = element_text(hjust = 0.30, size = 20),
@@ -119,10 +132,13 @@ df_feminicide %>% mutate(IDADE = as.numeric(IDADE) - 400) %>%
   scale_x_continuous(breaks = seq(0,100,5)) +
   theme_economist() +
   scale_fill_economist() +
-  labs(y = '',x = '',
-       caption = 'Fonte: Do Autor (SUS)') +
+  labs(y = '',x = 'Idade',
+       caption = 'Esse gráfico ilustra a distribuição por idade das mulheres mortas em casa no ano de 2017
+       Fonte: SUS') +
   theme(panel.grid.major = element_blank(),
         axis.line=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.text.y=element_blank(),
         plot.title = element_text(hjust = 0.30, size = 20),
         legend.position = "off")
 
@@ -140,7 +156,8 @@ df_feminicide %>%
   geom_text(aes(label=paste(round(prop,1),'%',sep = '')),hjust = -0.1,
             colour = "black", size = 5) +
   labs(y = '',x = '',
-       caption = 'Fonte: Do Autor (SUS)') +
+       caption = 'Gráfico que ilustra a proporçãp por dia da semana das mortes de mulheres em casa
+       Fonte: SUS') +
   theme(panel.grid.major = element_blank(),
         axis.line=element_blank(),
         plot.title = element_text(hjust = 0.30, size = 20),

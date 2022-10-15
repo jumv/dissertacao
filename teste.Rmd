@@ -1,5 +1,19 @@
+---
+title: "Untitled"
+author: "me"
+date: '2022-07-16'
+output:
+  pdf_document: 
+    extra_dependencies: ["booktabs"]
+    keep_tex: TRUE
+  html_document: default
+---
 
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
 
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r echo=FALSE}
 library(tidyverse)
 library(tictoc)
 library(furrr)
@@ -54,8 +68,8 @@ fast_check_percentil <- function(value,max,min){
 
 
 # calculando percentis da temperatura e chuva
-df_percent_temp <- create_df_percentile(0.1,temp,dados)
-df_percent_precip <- create_df_percentile(0.2,precip,dados)
+df_percent_temp <- create_df_percentile(0.2,temp,dados)
+df_percent_precip <- create_df_percentile(0.1,precip,dados)
 
 # criando as dummys na base
 dados$dummy_temp <- dados$temp %>% future_map_chr(fast_check_percentil,df_percent_temp$max,df_percent_temp$min) %>% as.factor()
@@ -95,7 +109,10 @@ dados$code_muni <- as.factor(dados$code_muni)
 ## FAZENDO COM FIXEST
 
 ### Com efeitos fixos
+```
 
+
+```{r echo=FALSE, results='asis'}
 #### OLS
 model_ols_fixed <- feols(feminicidio  ~ dummy_temp_celcius + dummy_precip_milimetro | data + code_muni, dados)
 
@@ -105,30 +122,6 @@ model_poisson_fixed <- fepois(feminicidio  ~ dummy_temp_celcius + dummy_precip_m
 #### Binomial Negativo
 model_bn_fixed <- fenegbin(feminicidio  ~ dummy_temp_celcius + dummy_precip_milimetro | data + code_muni, dados)
 
-
-# Tabela com efeitos fixos
-etable(model_ols_fixed,model_poisson_fixed,model_bn_fixed)
-
-
-## Testando com lead
-
-dados <- dados %>% mutate(lead_dummy_temp_celcius = as.factor(dplyr::lead(as.character(dummy_temp_celcius))),
-                 lead_dummy_precip_milimetro = as.factor(dplyr::lead(as.character(dummy_precip_milimetro))))
-
-### Com efeitos fixos
-
-#### OLS
-model_ols_fixed <- feols(feminicidio  ~ lag(lead_dummy_temp_celcius) + lag(lead_dummy_precip_milimetro)| data + code_muni, dados)
-
-#### Poisson 
-model_poisson_fixed <- fepois(feminicidio  ~ lag(lead_dummy_temp_celcius) + lag(lead_dummy_precip_milimetro)| data + code_muni, dados)
-
-#### Binomial Negativo
-model_bn_fixed <- fenegbin(feminicidio  ~ lag(lead_dummy_temp_celcius) + lag(lead_dummy_precip_milimetro)| data + code_muni, dados)
-
-
-# Tabela com efeitos fixos
-
 # Pre configuracoes
 nomes_variaveis <- c(
   dummy_temp_celcius18_21  = "Temperatura Celcius 18° - 21°",
@@ -137,15 +130,39 @@ nomes_variaveis <- c(
   dummy_temp_celcius3.6_15.1 = "Temperatura Celcius 3.6° - 15.1°",
   dummy_precip_milimetro1.6_6.7 = "Precipitação 1.6 - 6.7 mm",
   dummy_precip_milimetro115.7_163.1 = "Precipitação 115.7 - 163.1 mm",
-  dummy_precip_milimetro13.4_23.1 = "Precipitação 13.4 - 23.1 mm",
+  dummy_precip_milimetro13.3_23.1 = "Precipitação 13.4 - 23.1 mm",
   dummy_precip_milimetro163.1_694.8 = "Precipitação 163.1 - 694.8 mm",
   dummy_precip_milimetro23.1_37.2 = "Precipitação 23.1 - 37.2 mm",
   dummy_precip_milimetro37.2_56.6 = "Precipitação 37.2 - 56.6 mm",
-  dummy_precip_milimetro56.6_82.6 = "Precipitação 56.6 - 82.6 mm",
-  dummy_precip_milimetro6.7_13.4 = "Precipitação 6.7 - 13.4 mm",
-  dummy_precip_milimetro82.6_115.7 = "Precipitação 82.6 - 115.7 mm")
+  dummy_precip_milimetro56.6_82.5 = "Precipitação 56.6 - 82.6 mm",
+  dummy_precip_milimetro6.7_13.3 = "Precipitação 6.7 - 13.4 mm",
+  dummy_precip_milimetro82.5_115.7 = "Precipitação 82.6 - 115.7 mm")
+
+etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = T,dict = nomes_variaveis,notes = 'Ola')
+
+
+```
 
 
 
 
+
+```{r}
+# ## Testando com lead
+# 
+# dados <- dados %>% mutate(lead_dummy_temp_celcius = as.factor(dplyr::lead(as.character(dummy_temp_celcius))),
+#                  lead_dummy_precip_milimetro = as.factor(dplyr::lead(as.character(dummy_precip_milimetro))))
+# 
+# ### Com efeitos fixos
+# 
+# #### OLS
+# model_ols_fixed <- feols(feminicidio  ~ lag(lead_dummy_temp_celcius) + lag(lead_dummy_precip_milimetro)| data + code_muni, dados)
+# 
+# #### Poisson 
+# model_poisson_fixed <- fepois(feminicidio  ~ lag(lead_dummy_temp_celcius) + lag(lead_dummy_precip_milimetro)| data + code_muni, dados)
+# 
+# #### Binomial Negativo
+# model_bn_fixed <- fenegbin(feminicidio  ~ lag(lead_dummy_temp_celcius) + lag(lead_dummy_precip_milimetro)| data + code_muni, dados)
+
+```
 

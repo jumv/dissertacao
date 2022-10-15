@@ -1,0 +1,1116 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Untitled},
+  pdfauthor={me},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Untitled}
+\author{me}
+\date{2022-07-16}
+
+\begin{document}
+\maketitle
+
+This is an \href{http://rmarkdown.rstudio.com}{R Markdown} Notebook.
+When you execute code within the notebook, the results appear beneath
+the code.
+
+Try executing this chunk by clicking the \emph{Run} button within the
+chunk or by placing your cursor inside it and pressing
+\emph{Cmd+Shift+Enter}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# lendo os dados}
+\NormalTok{dados }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{\textquotesingle{}data/df\_join.csv\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Formando dummys}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{percent\_temp =} \FunctionTok{ntile}\NormalTok{(temp, }\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{(),}
+                 \AttributeTok{percent\_precip =} \FunctionTok{ntile}\NormalTok{(precip,}\DecValTok{5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{())}
+
+\CommentTok{\# criando variavel de tendencia linear}
+\NormalTok{df\_trend }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{(),}
+  \AttributeTok{trend =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{length}\NormalTok{())}
+\NormalTok{)}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(df\_trend)}
+
+\CommentTok{\# fazendo code do municipio virar factor}
+\NormalTok{dados}\SpecialCharTok{$}\NormalTok{code\_muni }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{code\_muni)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#dados \%\textgreater{}\% group\_by(percent\_temp) \%\textgreater{}\% summarise(lim\_inf = min(temp),lim\_sup = max(temp))}
+\CommentTok{\#dados \%\textgreater{}\% group\_by(percent\_precip) \%\textgreater{}\% summarise(lim\_inf = min(precip),lim\_sup = max(precip))}
+\NormalTok{nomes\_variaveis }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \AttributeTok{percent\_temp2 =} \StringTok{"Temperatura Celcius 13° {-} 15°"}\NormalTok{,}
+  \AttributeTok{percent\_temp3 =} \StringTok{"Temperatura Celcius 15° {-} 16°"}\NormalTok{,}
+  \AttributeTok{percent\_temp4 =} \StringTok{"Temperatura Celcius 16° {-} 18°"}\NormalTok{,}
+  \AttributeTok{percent\_temp5 =} \StringTok{"Temperatura Celcius 18° {-} 19°"}\NormalTok{,}
+  \AttributeTok{percent\_temp6 =} \StringTok{"Temperatura Celcius 19° {-} 21°"}\NormalTok{,}
+  \AttributeTok{percent\_temp7 =} \StringTok{"Temperatura Celcius 21° {-} 22°"}\NormalTok{,}
+  \AttributeTok{percent\_temp8 =} \StringTok{"Temperatura Celcius 22° {-} 24°"}\NormalTok{,}
+  \AttributeTok{percent\_temp9 =} \StringTok{"Temperatura Celcius 24° {-} 25°"}\NormalTok{,}
+  \AttributeTok{percent\_temp10 =} \StringTok{"Temperatura Celcius 25° {-} 31°"}\NormalTok{,}
+  \AttributeTok{percent\_precip2 =} \StringTok{"Precipitação 6.7 {-} 23.1 mm"}\NormalTok{,}
+  \AttributeTok{percent\_precip3 =} \StringTok{"Precipitação 23.1 {-} 56.6 mm"}\NormalTok{,}
+  \AttributeTok{percent\_precip4 =} \StringTok{"Precipitação 56.6 {-} 115.7 mm"}\NormalTok{,}
+  \AttributeTok{percent\_precip5 =} \StringTok{"Precipitação 115.7 {-} 694.8 mm"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{regressao-1}{%
+\section{Regressao 1}\label{regressao-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# OLS}
+\NormalTok{model\_ols\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{feols}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+
+\DocumentationTok{\#\#\#\# Poisson}
+\NormalTok{model\_poisson\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fepois}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/2,126 fixed-effects (459,216 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Binomial Negativo}
+\NormalTok{model\_bn\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fenegbin}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/2,126 fixed-effects (459,216 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{etable}\NormalTok{(}\FunctionTok{list}\NormalTok{(model\_ols\_fixed,model\_poisson\_fixed,model\_bn\_fixed),}\AttributeTok{tex =}\NormalTok{ T,}\AttributeTok{dict =}\NormalTok{ nomes\_variaveis,}\AttributeTok{notes =} \StringTok{\textquotesingle{}Ola\textquotesingle{}}\NormalTok{,}\AttributeTok{se =} \StringTok{\textquotesingle{}cluster\textquotesingle{}}\NormalTok{,}\AttributeTok{cluster =} \StringTok{\textquotesingle{}code\_muni\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{lccc}
+\tabularnewline\midrule\midrule
+Dependent Variable:&\multicolumn{3}{c}{feminicidio}\\
+Model:&(1) & (2) & (3)\\
+ &  OLS & Poisson & Neg. Bin.\\
+\midrule \emph{Variables}&   &   &  \\
+Temperatura Celcius 13° - 15° & 0.0009 & 0.0501 & 0.0536\\
+  &(0.0006) & (0.0392) & (0.0402)\\
+Temperatura Celcius 15° - 16° & 0.0010 & 0.0526 & 0.0570\\
+  &(0.0008) & (0.0470) & (0.0484)\\
+Temperatura Celcius 16° - 18° & 0.0003 & 0.0085 & 0.0150\\
+  &(0.0010) & (0.0561) & (0.0581)\\
+Temperatura Celcius 18° - 19° & 0.0002 & -0.0013 & $1.21\times 10^{-5}$\\
+  &(0.0011) & (0.0659) & (0.0682)\\
+Temperatura Celcius 19° - 21° & -0.0001 & 0.0006 & 0.0020\\
+  &(0.0013) & (0.0754) & (0.0778)\\
+Temperatura Celcius 21° - 22° & 0.0002 & 0.0098 & 0.0049\\
+  &(0.0015) & (0.0877) & (0.0889)\\
+Temperatura Celcius 22° - 24° & 0.0013 & 0.0818 & 0.0765\\
+  &(0.0019) & (0.1061) & (0.1063)\\
+Temperatura Celcius 24° - 25° & 0.0006 & 0.0435 & 0.0411\\
+  &(0.0020) & (0.1154) & (0.1164)\\
+Temperatura Celcius 25° - 31° & 0.0005 & 0.0178 & 0.0047\\
+  &(0.0022) & (0.1259) & (0.1271)\\
+Precipitação 6.7 - 23.1 mm & $7.98\times 10^{-5}$ & 0.0019 & 0.0049\\
+  &(0.0004) & (0.0296) & (0.0299)\\
+Precipitação 23.1 - 56.6 mm & $2.58\times 10^{-5}$ & -0.0057 & -0.0104\\
+  &(0.0005) & (0.0316) & (0.0309)\\
+Precipitação 56.6 - 115.7 mm & $-9.38\times 10^{-5}$ & -0.0089 & -0.0142\\
+  &(0.0006) & (0.0361) & (0.0357)\\
+Precipitação 115.7 - 694.8 mm & -0.0007 & -0.0498 & -0.0556\\
+  &(0.0007) & (0.0415) & (0.0415)\\
+\midrule \emph{Fixed-effects}&   &   &  \\
+data & Yes & Yes & Yes\\
+code\_muni & Yes & Yes & Yes\\
+\midrule \emph{Fit statistics}&  & & \\
+Observations & 1,202,256&743,040&743,040\\
+Squared Correlation & 0.21813&0.21155&0.20880\\
+Pseudo R$^2$ & -0.28275&0.24076&0.19997\\
+BIC & -1,261,002.6&197,420.5&197,056.3\\
+Over-dispersion & &&2.2622\\
+\midrule\midrule\multicolumn{4}{l}{\emph{Clustered (code\_muni) standard-errors in parentheses}}\\
+\multicolumn{4}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+\end{tabular}
+
+\medskip \emph{Notes:} Ola
+
+\hypertarget{lead}{%
+\section{Lead}\label{lead}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Testando com lead}
+
+\NormalTok{dados\_lead }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{lead\_temp =} \FunctionTok{as.factor}\NormalTok{(dplyr}\SpecialCharTok{::}\FunctionTok{lead}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(percent\_temp))),}
+                 \AttributeTok{lead\_precip =} \FunctionTok{as.factor}\NormalTok{(dplyr}\SpecialCharTok{::}\FunctionTok{lead}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(percent\_precip))))}
+
+\DocumentationTok{\#\#\# Com efeitos fixos}
+
+\DocumentationTok{\#\#\#\# OLS}
+\NormalTok{model\_ols\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{feols}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lead\_temp }\SpecialCharTok{+}\NormalTok{ lead\_precip}\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados\_lead)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 1 observation removed because of NA values (RHS: 1).
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Poisson}
+\NormalTok{model\_poisson\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fepois}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lead\_temp }\SpecialCharTok{+}\NormalTok{ lead\_precip}\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados\_lead)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTES: 1 observation removed because of NA values (RHS: 1).
+##        0/2,126 fixed-effects (459,216 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Binomial Negativo}
+\NormalTok{model\_bn\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fenegbin}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lead\_temp }\SpecialCharTok{+}\NormalTok{ lead\_precip}\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados\_lead)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTES: 1 observation removed because of NA values (RHS: 1).
+##        0/2,126 fixed-effects (459,216 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{etable}\NormalTok{(}\FunctionTok{list}\NormalTok{(model\_ols\_fixed,model\_poisson\_fixed,model\_bn\_fixed),}\AttributeTok{tex =}\NormalTok{ T,}\AttributeTok{notes =} \StringTok{\textquotesingle{}Ola\textquotesingle{}}\NormalTok{,}\AttributeTok{se =} \StringTok{\textquotesingle{}cluster\textquotesingle{}}\NormalTok{,}\AttributeTok{cluster =} \StringTok{\textquotesingle{}code\_muni\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## \begin{tabular}{lccc}
+## \tabularnewline\midrule\midrule
+## Dependent Variable:&\multicolumn{3}{c}{feminicidio}\\
+## Model:&(1) & (2) & (3)\\
+##  &  OLS & Poisson & Neg. Bin.\\
+## \midrule \emph{Variables}&   &   &  \\
+## lead\_temp10 & -0.0011 & -0.0661 & -0.0658\\
+##   &(0.0023) & (0.1294) & (0.1257)\\
+## lead\_temp2 & 0.0017$^{***}$ & 0.1033$^{**}$ & 0.1123$^{***}$\\
+##   &(0.0006) & (0.0410) & (0.0409)\\
+## lead\_temp3 & 0.0014 & 0.0907 & 0.0901\\
+##   &(0.0010) & (0.0566) & (0.0572)\\
+## lead\_temp4 & 0.0011 & 0.0547 & 0.0625\\
+##   &(0.0011) & (0.0631) & (0.0646)\\
+## lead\_temp5 & 0.0008 & 0.0414 & 0.0465\\
+##   &(0.0013) & (0.0765) & (0.0753)\\
+## lead\_temp6 & 0.0006 & 0.0477 & 0.0549\\
+##   &(0.0015) & (0.0869) & (0.0853)\\
+## lead\_temp7 & $9.24\times 10^{-5}$ & 0.0098 & 0.0160\\
+##   &(0.0017) & (0.0948) & (0.0928)\\
+## lead\_temp8 & 0.0002 & 0.0300 & 0.0286\\
+##   &(0.0019) & (0.1090) & (0.1057)\\
+## lead\_temp9 & -0.0002 & 0.0035 & 0.0092\\
+##   &(0.0021) & (0.1212) & (0.1172)\\
+## lead\_precip2 & 0.0006 & 0.0358 & 0.0264\\
+##   &(0.0004) & (0.0284) & (0.0283)\\
+## lead\_precip3 & -0.0006 & -0.0364 & -0.0414\\
+##   &(0.0005) & (0.0324) & (0.0325)\\
+## lead\_precip4 & 0.0002 & 0.0008 & -0.0102\\
+##   &(0.0006) & (0.0366) & (0.0362)\\
+## lead\_precip5 & 0.0003 & 0.0080 & -0.0032\\
+##   &(0.0007) & (0.0419) & (0.0418)\\
+## \midrule \emph{Fixed-effects}&   &   &  \\
+## data & Yes & Yes & Yes\\
+## code\_muni & Yes & Yes & Yes\\
+## \midrule \emph{Fit statistics}&  & & \\
+## Observations & 1,202,255&743,039&743,039\\
+## Squared Correlation & 0.21818&0.21193&0.20914\\
+## Pseudo R$^2$ & -0.28282&0.24083&0.20003\\
+## BIC & -1,261,072.9&197,407.0&197,045.5\\
+## Over-dispersion & &&2.2714\\
+## \midrule\midrule\multicolumn{4}{l}{\emph{Clustered (code\_muni) standard-errors in parentheses}}\\
+## \multicolumn{4}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+## \end{tabular}
+## 
+## \medskip \emph{Notes:} Ola
+\end{verbatim}
+
+\hypertarget{testando-com-cidades-100.000}{%
+\section{Testando com cidades +
+100.000}\label{testando-com-cidades-100.000}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# lendo os dados}
+\NormalTok{dados }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{\textquotesingle{}data/df\_join.csv\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(populacao }\SpecialCharTok{\textgreater{}} \DecValTok{100000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   unique_key = col_character(),
+##   code_muni = col_double(),
+##   ano = col_double(),
+##   data = col_date(format = ""),
+##   mes = col_double(),
+##   temp = col_double(),
+##   precip = col_double(),
+##   feminicidio = col_double(),
+##   populacao = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Formando dummys}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{percent\_temp =} \FunctionTok{ntile}\NormalTok{(temp, }\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{(),}
+                 \AttributeTok{percent\_precip =} \FunctionTok{ntile}\NormalTok{(precip,}\DecValTok{5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{())}
+
+\CommentTok{\# criando variavel de tendencia linear}
+\NormalTok{df\_trend }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{(),}
+  \AttributeTok{trend =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{length}\NormalTok{())}
+\NormalTok{)}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(df\_trend)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Joining, by = "data"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# fazendo code do municipio virar factor}
+\NormalTok{dados}\SpecialCharTok{$}\NormalTok{code\_muni }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{code\_muni)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# OLS}
+\NormalTok{model\_ols\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{feols}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+
+\DocumentationTok{\#\#\#\# Poisson}
+\NormalTok{model\_poisson\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fepois}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/267 fixed-effects (4,224 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Binomial Negativo}
+\NormalTok{model\_bn\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fenegbin}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/267 fixed-effects (4,224 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{etable}\NormalTok{(}\FunctionTok{list}\NormalTok{(model\_ols\_fixed,model\_poisson\_fixed,model\_bn\_fixed),}\AttributeTok{tex =}\NormalTok{ T,}\AttributeTok{notes =} \StringTok{\textquotesingle{}Ola\textquotesingle{}}\NormalTok{,}\AttributeTok{se =} \StringTok{\textquotesingle{}cluster\textquotesingle{}}\NormalTok{,}\AttributeTok{cluster =} \StringTok{\textquotesingle{}code\_muni\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## \begin{tabular}{lccc}
+## \tabularnewline\midrule\midrule
+## Dependent Variable:&\multicolumn{3}{c}{feminicidio}\\
+## Model:&(1) & (2) & (3)\\
+##  &  OLS & Poisson & Neg. Bin.\\
+## \midrule \emph{Variables}&   &   &  \\
+## percent\_temp2 & 0.0156$^{**}$ & 0.1057$^{**}$ & 0.1077$^{**}$\\
+##   &(0.0067) & (0.0491) & (0.0513)\\
+## percent\_temp3 & 0.0129$^{*}$ & 0.0806 & 0.0702\\
+##   &(0.0073) & (0.0519) & (0.0527)\\
+## percent\_temp4 & 0.0114 & 0.0632 & 0.0558\\
+##   &(0.0100) & (0.0725) & (0.0747)\\
+## percent\_temp5 & 0.0140 & 0.0671 & 0.0640\\
+##   &(0.0118) & (0.0808) & (0.0850)\\
+## percent\_temp6 & 0.0110 & 0.0529 & 0.0432\\
+##   &(0.0145) & (0.0978) & (0.1016)\\
+## percent\_temp7 & 0.0299$^{*}$ & 0.1679 & 0.1638\\
+##   &(0.0181) & (0.1099) & (0.1150)\\
+## percent\_temp8 & 0.0303 & 0.1698 & 0.1683\\
+##   &(0.0229) & (0.1324) & (0.1376)\\
+## percent\_temp9 & 0.0501$^{*}$ & 0.2744$^{*}$ & 0.2734$^{*}$\\
+##   &(0.0279) & (0.1530) & (0.1583)\\
+## percent\_temp10 & 0.0529$^{*}$ & 0.2945$^{*}$ & 0.2881\\
+##   &(0.0316) & (0.1711) & (0.1755)\\
+## percent\_precip2 & 0.0082 & 0.0576 & 0.0504\\
+##   &(0.0058) & (0.0403) & (0.0408)\\
+## percent\_precip3 & 0.0057 & 0.0411 & 0.0397\\
+##   &(0.0064) & (0.0449) & (0.0457)\\
+## percent\_precip4 & 0.0091 & 0.0623 & 0.0544\\
+##   &(0.0077) & (0.0529) & (0.0528)\\
+## percent\_precip5 & 0.0018 & 0.0122 & 0.0086\\
+##   &(0.0087) & (0.0580) & (0.0591)\\
+## \midrule \emph{Fixed-effects}&   &   &  \\
+## data & Yes & Yes & Yes\\
+## code\_muni & Yes & Yes & Yes\\
+## \midrule \emph{Fit statistics}&  & & \\
+## Observations & 59,448&55,224&55,224\\
+## Squared Correlation & 0.28213&0.28502&0.28084\\
+## Pseudo R$^2$ & 0.22116&0.20460&0.16118\\
+## BIC & 78,418.0&51,895.5&51,781.8\\
+## Over-dispersion & &&4.2741\\
+## \midrule\midrule\multicolumn{4}{l}{\emph{Clustered (code\_muni) standard-errors in parentheses}}\\
+## \multicolumn{4}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+## \end{tabular}
+## 
+## \medskip \emph{Notes:} Ola
+\end{verbatim}
+
+\hypertarget{testando-com-distribuicao-a-priori-cidade-100000}{%
+\section{Testando com distribuicao a priori cidade +
+100000}\label{testando-com-distribuicao-a-priori-cidade-100000}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# lendo os dados}
+\NormalTok{dados }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{\textquotesingle{}data/df\_join.csv\textquotesingle{}}\NormalTok{) }\CommentTok{\#\%\textgreater{}\% filter(populacao \textgreater{} 100000)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   unique_key = col_character(),
+##   code_muni = col_double(),
+##   ano = col_double(),
+##   data = col_date(format = ""),
+##   mes = col_double(),
+##   temp = col_double(),
+##   precip = col_double(),
+##   feminicidio = col_double(),
+##   populacao = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{x\_temp =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{  temp }\SpecialCharTok{\textless{}=} \DecValTok{15} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Inverno\textquotesingle{}}\NormalTok{,}
+\NormalTok{  (temp }\SpecialCharTok{\textgreater{}} \DecValTok{15}\NormalTok{) }\SpecialCharTok{\&}\NormalTok{ (temp }\SpecialCharTok{\textless{}=} \DecValTok{24}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Outono\textquotesingle{}}\NormalTok{,}
+\NormalTok{  (temp }\SpecialCharTok{\textgreater{}} \DecValTok{24}\NormalTok{) }\SpecialCharTok{\&}\NormalTok{ (temp }\SpecialCharTok{\textless{}=} \DecValTok{30}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Primavera\textquotesingle{}}\NormalTok{,}
+\NormalTok{  temp }\SpecialCharTok{\textgreater{}} \DecValTok{30} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Verão\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{x\_precip =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{  precip }\SpecialCharTok{\textless{}=} \DecValTok{5} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Fraca\textquotesingle{}}\NormalTok{,}
+\NormalTok{  (precip }\SpecialCharTok{\textgreater{}} \DecValTok{5}\NormalTok{) }\SpecialCharTok{\&}\NormalTok{ (precip }\SpecialCharTok{\textless{}=} \DecValTok{25}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Moderada\textquotesingle{}}\NormalTok{,}
+\NormalTok{  (precip }\SpecialCharTok{\textgreater{}} \DecValTok{25}\NormalTok{) }\SpecialCharTok{\&}\NormalTok{ (precip }\SpecialCharTok{\textless{}=} \DecValTok{50}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Forte\textquotesingle{}}\NormalTok{,}
+\NormalTok{  precip }\SpecialCharTok{\textgreater{}} \DecValTok{50} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Torrencial\textquotesingle{}}\NormalTok{))}
+
+\CommentTok{\# criando variavel de tendencia linear}
+\NormalTok{df\_trend }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{(),}
+  \AttributeTok{trend =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{length}\NormalTok{())}
+\NormalTok{)}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(df\_trend)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Joining, by = "data"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# fazendo code do municipio virar factor}
+\NormalTok{dados}\SpecialCharTok{$}\NormalTok{code\_muni }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{code\_muni)}
+
+\CommentTok{\# Fazendo com que }
+\NormalTok{dados}\SpecialCharTok{$}\NormalTok{x\_temp }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{x\_temp,}\AttributeTok{ordered =}\NormalTok{ F)}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{x\_temp =} \FunctionTok{relevel}\NormalTok{(x\_temp,}\AttributeTok{ref =} \StringTok{\textquotesingle{}Primavera\textquotesingle{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# OLS}
+\NormalTok{model\_ols\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{feols}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x\_temp }\SpecialCharTok{+}\NormalTok{ x\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+
+\DocumentationTok{\#\#\#\# Poisson}
+\NormalTok{model\_poisson\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fepois}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x\_temp }\SpecialCharTok{+}\NormalTok{ x\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/2,126 fixed-effects (459,216 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Binomial Negativo}
+\NormalTok{model\_bn\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fenegbin}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x\_temp }\SpecialCharTok{+}\NormalTok{ x\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/2,126 fixed-effects (459,216 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{etable}\NormalTok{(}\FunctionTok{list}\NormalTok{(model\_ols\_fixed,model\_poisson\_fixed,model\_bn\_fixed),}\AttributeTok{tex =}\NormalTok{ F,}\AttributeTok{notes =} \StringTok{\textquotesingle{}Ola\textquotesingle{}}\NormalTok{,}\AttributeTok{se =} \StringTok{\textquotesingle{}cluster\textquotesingle{}}\NormalTok{,}\AttributeTok{cluster =} \StringTok{\textquotesingle{}code\_muni\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                         model 1            model 2            model 3
+\end{verbatim}
+
+Dependent Var.: feminicidio feminicidio feminicidio
+
+x\_tempInverno 0.0004 (0.0010) 0.0219 (0.0568) 0.0183 (0.0591)
+x\_tempOutono 0.0004 (0.0008) 0.0205 (0.0445) 0.0192 (0.0456)
+x\_tempVerão -0.0146. (0.0083) -9.267*** (0.0253) -13.40*** (0.7641)
+x\_precipFraca 0.0003 (0.0005) 0.0236 (0.0350) 0.0291 (0.0342)
+x\_precipModerada 0.0002 (0.0004) 0.0169 (0.0264) 0.0267 (0.0260)
+x\_precipTorrencial 0.0001 (0.0005) 0.0060 (0.0256) 0.0081 (0.0259)
+Fixed-Effects: ----------------- ------------------ ------------------
+data Yes Yes Yes code\_muni Yes Yes Yes
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Family OLS Poisson Neg. Bin. S.E.:
+Clustered by: code\_muni by: code\_muni by: code\_muni Observations
+1,202,256 743,040 743,040 Squared Cor. 0.21812 0.21146 0.20871 Pseudo R2
+-0.28274 0.24072 0.19993 BIC -1,261,093.6 197,333.2 196,968.3
+Over-dispersion -- -- 2.2596
+
+\hypertarget{testando-por-raca-preta}{%
+\section{Testando por raca preta}\label{testando-por-raca-preta}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# lendo os dados}
+\NormalTok{dados }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{\textquotesingle{}data/df\_join\_negro.csv\textquotesingle{}}\NormalTok{) }\CommentTok{\#\%\textgreater{}\% filter(populacao \textgreater{} 100000)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   unique_key = col_character(),
+##   code_muni = col_double(),
+##   ano = col_double(),
+##   data = col_date(format = ""),
+##   mes = col_double(),
+##   temp = col_double(),
+##   precip = col_double(),
+##   feminicidio = col_double(),
+##   populacao = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Formando dummys}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{percent\_temp =} \FunctionTok{ntile}\NormalTok{(temp, }\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{(),}
+                 \AttributeTok{percent\_precip =} \FunctionTok{ntile}\NormalTok{(precip,}\DecValTok{5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{())}
+
+\CommentTok{\# criando variavel de tendencia linear}
+\NormalTok{df\_trend }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{(),}
+  \AttributeTok{trend =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{length}\NormalTok{())}
+\NormalTok{)}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(df\_trend)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Joining, by = "data"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# fazendo code do municipio virar factor}
+\NormalTok{dados}\SpecialCharTok{$}\NormalTok{code\_muni }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{code\_muni)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# OLS}
+\NormalTok{model\_ols\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{feols}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+
+\DocumentationTok{\#\#\#\# Poisson}
+\NormalTok{model\_poisson\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fepois}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/4,881 fixed-effects (1,054,296 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Binomial Negativo}
+\NormalTok{model\_bn\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fenegbin}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/4,881 fixed-effects (1,054,296 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{etable}\NormalTok{(}\FunctionTok{list}\NormalTok{(model\_ols\_fixed,model\_poisson\_fixed,model\_bn\_fixed),}\AttributeTok{tex =}\NormalTok{ T,}\AttributeTok{dict =}\NormalTok{ nomes\_variaveis,}\AttributeTok{notes =} \StringTok{\textquotesingle{}Ola\textquotesingle{}}\NormalTok{,}\AttributeTok{se =} \StringTok{\textquotesingle{}cluster\textquotesingle{}}\NormalTok{,}\AttributeTok{cluster =} \StringTok{\textquotesingle{}code\_muni\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{lccc}
+\tabularnewline\midrule\midrule
+Dependent Variable:&\multicolumn{3}{c}{feminicidio}\\
+Model:&(1) & (2) & (3)\\
+ &  OLS & Poisson & Neg. Bin.\\
+\midrule \emph{Variables}&   &   &  \\
+Temperatura Celcius 13° - 15° & $4.3\times 10^{-5}$ & 0.0474 & 0.0661\\
+  &(0.0001) & (0.1959) & (0.1953)\\
+Temperatura Celcius 15° - 16° & $9.54\times 10^{-5}$ & 0.0914 & 0.1087\\
+  &(0.0002) & (0.2116) & (0.2129)\\
+Temperatura Celcius 16° - 18° & $-4.7\times 10^{-5}$ & -0.0265 & -0.0232\\
+  &(0.0002) & (0.2605) & (0.2567)\\
+Temperatura Celcius 18° - 19° & $-5.93\times 10^{-5}$ & -0.0575 & -0.0537\\
+  &(0.0003) & (0.2863) & (0.2850)\\
+Temperatura Celcius 19° - 21° & -0.0002 & -0.1169 & -0.1187\\
+  &(0.0003) & (0.3230) & (0.3225)\\
+Temperatura Celcius 21° - 22° & -0.0005 & -0.2835 & -0.2962\\
+  &(0.0004) & (0.3719) & (0.3706)\\
+Temperatura Celcius 22° - 24° & -0.0005 & -0.3476 & -0.3533\\
+  &(0.0004) & (0.4095) & (0.4090)\\
+Temperatura Celcius 24° - 25° & -0.0006 & -0.4329 & -0.4287\\
+  &(0.0005) & (0.5125) & (0.5079)\\
+Temperatura Celcius 25° - 31° & -0.0003 & -0.0178 & -0.0147\\
+  &(0.0005) & (0.5564) & (0.5514)\\
+Precipitação 6.7 - 23.1 mm & $-2.98\times 10^{-5}$ & -0.0295 & -0.0299\\
+  &(0.0001) & (0.1068) & (0.1071)\\
+Precipitação 23.1 - 56.6 mm & $1.34\times 10^{-5}$ & 0.0228 & 0.0231\\
+  &(0.0001) & (0.1065) & (0.1074)\\
+Precipitação 56.6 - 115.7 mm & 0.0001 & 0.1295 & 0.1324\\
+  &(0.0001) & (0.1295) & (0.1304)\\
+Precipitação 115.7 - 694.8 mm & 0.0002 & 0.1634 & 0.1623\\
+  &(0.0002) & (0.1605) & (0.1599)\\
+\midrule \emph{Fixed-effects}&   &   &  \\
+data & Yes & Yes & Yes\\
+code\_muni & Yes & Yes & Yes\\
+\midrule \emph{Fit statistics}&  & & \\
+Observations & 1,202,256&147,960&147,960\\
+Squared Correlation & 0.02661&0.02066&0.01982\\
+Pseudo R$^2$ & -0.00683&0.09382&0.08968\\
+BIC & -4,699,096.4&24,223.7&24,205.7\\
+Over-dispersion & &&0.85449\\
+\midrule\midrule\multicolumn{4}{l}{\emph{Clustered (code\_muni) standard-errors in parentheses}}\\
+\multicolumn{4}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+\end{tabular}
+
+\medskip \emph{Notes:} Ola
+
+\hypertarget{testando-por-raca-branco}{%
+\section{Testando por raca branco}\label{testando-por-raca-branco}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# lendo os dados}
+\NormalTok{dados }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{\textquotesingle{}data/df\_join\_branco.csv\textquotesingle{}}\NormalTok{) }\CommentTok{\#\%\textgreater{}\% filter(populacao \textgreater{} 100000)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   unique_key = col_character(),
+##   code_muni = col_double(),
+##   ano = col_double(),
+##   data = col_date(format = ""),
+##   mes = col_double(),
+##   temp = col_double(),
+##   precip = col_double(),
+##   feminicidio = col_double(),
+##   populacao = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Formando dummys}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{percent\_temp =} \FunctionTok{ntile}\NormalTok{(temp, }\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{(),}
+                 \AttributeTok{percent\_precip =} \FunctionTok{ntile}\NormalTok{(precip,}\DecValTok{5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{())}
+
+\CommentTok{\# criando variavel de tendencia linear}
+\NormalTok{df\_trend }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{(),}
+  \AttributeTok{trend =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{length}\NormalTok{())}
+\NormalTok{)}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(df\_trend)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Joining, by = "data"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# fazendo code do municipio virar factor}
+\NormalTok{dados}\SpecialCharTok{$}\NormalTok{code\_muni }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{code\_muni)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# OLS}
+\NormalTok{model\_ols\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{feols}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+
+\DocumentationTok{\#\#\#\# Poisson}
+\NormalTok{model\_poisson\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fepois}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/3,405 fixed-effects (735,480 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Binomial Negativo}
+\NormalTok{model\_bn\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fenegbin}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/3,405 fixed-effects (735,480 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{etable}\NormalTok{(}\FunctionTok{list}\NormalTok{(model\_ols\_fixed,model\_poisson\_fixed,model\_bn\_fixed),}\AttributeTok{tex =}\NormalTok{ T,}\AttributeTok{dict =}\NormalTok{ nomes\_variaveis,}\AttributeTok{notes =} \StringTok{\textquotesingle{}Ola\textquotesingle{}}\NormalTok{,}\AttributeTok{se =} \StringTok{\textquotesingle{}cluster\textquotesingle{}}\NormalTok{,}\AttributeTok{cluster =} \StringTok{\textquotesingle{}code\_muni\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{lccc}
+\tabularnewline\midrule\midrule
+Dependent Variable:&\multicolumn{3}{c}{feminicidio}\\
+Model:&(1) & (2) & (3)\\
+ &  OLS & Poisson & Neg. Bin.\\
+\midrule \emph{Variables}&   &   &  \\
+Temperatura Celcius 13° - 15° & 0.0005 & 0.0411 & 0.0430\\
+  &(0.0005) & (0.0458) & (0.0469)\\
+Temperatura Celcius 15° - 16° & 0.0002 & 0.0325 & 0.0386\\
+  &(0.0007) & (0.0623) & (0.0622)\\
+Temperatura Celcius 16° - 18° & -0.0005 & -0.0255 & -0.0070\\
+  &(0.0009) & (0.0847) & (0.0819)\\
+Temperatura Celcius 18° - 19° & -0.0010 & -0.0869 & -0.0697\\
+  &(0.0009) & (0.0995) & (0.0973)\\
+Temperatura Celcius 19° - 21° & -0.0006 & -0.0364 & -0.0191\\
+  &(0.0010) & (0.1164) & (0.1137)\\
+Temperatura Celcius 21° - 22° & $-2.93\times 10^{-5}$ & 0.0589 & 0.0658\\
+  &(0.0011) & (0.1370) & (0.1326)\\
+Temperatura Celcius 22° - 24° & $-9.7\times 10^{-5}$ & 0.0440 & 0.0553\\
+  &(0.0012) & (0.1675) & (0.1648)\\
+Temperatura Celcius 24° - 25° & -0.0006 & -0.1235 & -0.1094\\
+  &(0.0013) & (0.1892) & (0.1863)\\
+Temperatura Celcius 25° - 31° & -0.0009 & -0.2433 & -0.2293\\
+  &(0.0014) & (0.2224) & (0.2204)\\
+Precipitação 6.7 - 23.1 mm & $-5.74\times 10^{-5}$ & -0.0093 & -0.0141\\
+  &(0.0003) & (0.0446) & (0.0457)\\
+Precipitação 23.1 - 56.6 mm & $-4.01\times 10^{-5}$ & -0.0152 & -0.0235\\
+  &(0.0003) & (0.0469) & (0.0477)\\
+Precipitação 56.6 - 115.7 mm & -0.0003 & -0.0336 & -0.0441\\
+  &(0.0004) & (0.0545) & (0.0554)\\
+Precipitação 115.7 - 694.8 mm & -0.0007 & -0.0704 & -0.0838\\
+  &(0.0005) & (0.0649) & (0.0654)\\
+\midrule \emph{Fixed-effects}&   &   &  \\
+data & Yes & Yes & Yes\\
+code\_muni & Yes & Yes & Yes\\
+\midrule \emph{Fit statistics}&  & & \\
+Observations & 1,202,256&466,776&466,776\\
+Squared Correlation & 0.15202&0.15052&0.14746\\
+Pseudo R$^2$ & -0.09055&0.19391&0.16603\\
+BIC & -2,306,487.9&103,442.4&103,307.5\\
+Over-dispersion & &&1.8576\\
+\midrule\midrule\multicolumn{4}{l}{\emph{Clustered (code\_muni) standard-errors in parentheses}}\\
+\multicolumn{4}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+\end{tabular}
+
+\medskip \emph{Notes:} Ola
+
+\hypertarget{testando-por-ate-12-anos}{%
+\section{Testando por ate 12 anos}\label{testando-por-ate-12-anos}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# lendo os dados}
+\NormalTok{dados }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{\textquotesingle{}data/df\_join\_ate\_12anos.csv\textquotesingle{}}\NormalTok{) }\CommentTok{\#\%\textgreater{}\% filter(populacao \textgreater{} 100000)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   unique_key = col_character(),
+##   code_muni = col_double(),
+##   ano = col_double(),
+##   data = col_date(format = ""),
+##   mes = col_double(),
+##   temp = col_double(),
+##   precip = col_double(),
+##   feminicidio = col_double(),
+##   populacao = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Formando dummys}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{percent\_temp =} \FunctionTok{ntile}\NormalTok{(temp, }\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{(),}
+                 \AttributeTok{percent\_precip =} \FunctionTok{ntile}\NormalTok{(precip,}\DecValTok{5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{())}
+
+\CommentTok{\# criando variavel de tendencia linear}
+\NormalTok{df\_trend }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{(),}
+  \AttributeTok{trend =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{length}\NormalTok{())}
+\NormalTok{)}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(df\_trend)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Joining, by = "data"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# fazendo code do municipio virar factor}
+\NormalTok{dados}\SpecialCharTok{$}\NormalTok{code\_muni }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{code\_muni)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# OLS}
+\NormalTok{model\_ols\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{feols}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+
+\DocumentationTok{\#\#\#\# Poisson}
+\NormalTok{model\_poisson\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fepois}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/2,941 fixed-effects (635,256 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Binomial Negativo}
+\NormalTok{model\_bn\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fenegbin}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 0/2,941 fixed-effects (635,256 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{etable}\NormalTok{(}\FunctionTok{list}\NormalTok{(model\_ols\_fixed,model\_poisson\_fixed,model\_bn\_fixed),}\AttributeTok{tex =}\NormalTok{ T,}\AttributeTok{dict =}\NormalTok{ nomes\_variaveis,}\AttributeTok{notes =} \StringTok{\textquotesingle{}Ola\textquotesingle{}}\NormalTok{,}\AttributeTok{se =} \StringTok{\textquotesingle{}cluster\textquotesingle{}}\NormalTok{,}\AttributeTok{cluster =} \StringTok{\textquotesingle{}code\_muni\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{lccc}
+\tabularnewline\midrule\midrule
+Dependent Variable:&\multicolumn{3}{c}{feminicidio}\\
+Model:&(1) & (2) & (3)\\
+ &  OLS & Poisson & Neg. Bin.\\
+\midrule \emph{Variables}&   &   &  \\
+Temperatura Celcius 13° - 15° & 0.0008 & 0.0692 & 0.0786\\
+  &(0.0005) & (0.0516) & (0.0517)\\
+Temperatura Celcius 15° - 16° & 0.0005 & 0.0302 & 0.0267\\
+  &(0.0006) & (0.0622) & (0.0627)\\
+Temperatura Celcius 16° - 18° & $4.17\times 10^{-5}$ & -0.0348 & -0.0447\\
+  &(0.0007) & (0.0750) & (0.0749)\\
+Temperatura Celcius 18° - 19° & $-5.83\times 10^{-5}$ & -0.0515 & -0.0637\\
+  &(0.0008) & (0.0862) & (0.0866)\\
+Temperatura Celcius 19° - 21° & -0.0008 & -0.0957 & -0.1077\\
+  &(0.0010) & (0.0965) & (0.0982)\\
+Temperatura Celcius 21° - 22° & 0.0004 & 0.0014 & -0.0129\\
+  &(0.0011) & (0.1078) & (0.1095)\\
+Temperatura Celcius 22° - 24° & -0.0006 & -0.0851 & -0.0986\\
+  &(0.0014) & (0.1301) & (0.1312)\\
+Temperatura Celcius 24° - 25° & -0.0013 & -0.1399 & -0.1513\\
+  &(0.0015) & (0.1425) & (0.1450)\\
+Temperatura Celcius 25° - 31° & -0.0011 & -0.1491 & -0.1642\\
+  &(0.0016) & (0.1576) & (0.1597)\\
+Precipitação 6.7 - 23.1 mm & -0.0001 & -0.0221 & -0.0196\\
+  &(0.0003) & (0.0367) & (0.0374)\\
+Precipitação 23.1 - 56.6 mm & $-1.35\times 10^{-5}$ & -0.0189 & -0.0265\\
+  &(0.0004) & (0.0381) & (0.0385)\\
+Precipitação 56.6 - 115.7 mm & -0.0002 & -0.0237 & -0.0299\\
+  &(0.0004) & (0.0441) & (0.0443)\\
+Precipitação 115.7 - 694.8 mm & -0.0003 & -0.0369 & -0.0431\\
+  &(0.0005) & (0.0515) & (0.0521)\\
+\midrule \emph{Fixed-effects}&   &   &  \\
+data & Yes & Yes & Yes\\
+code\_muni & Yes & Yes & Yes\\
+\midrule \emph{Fit statistics}&  & & \\
+Observations & 1,202,256&567,000&567,000\\
+Squared Correlation & 0.21056&0.20056&0.19593\\
+Pseudo R$^2$ & -0.16961&0.23611&0.19752\\
+BIC & -1,879,064.1&132,429.6&132,246.4\\
+Over-dispersion & &&2.4567\\
+\midrule\midrule\multicolumn{4}{l}{\emph{Clustered (code\_muni) standard-errors in parentheses}}\\
+\multicolumn{4}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+\end{tabular}
+
+\medskip \emph{Notes:} Ola
+
+\hypertarget{testando-por-12-anos}{%
+\section{Testando por + 12 anos}\label{testando-por-12-anos}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# lendo os dados}
+\NormalTok{dados }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{\textquotesingle{}data/df\_join\_12anos+.csv\textquotesingle{}}\NormalTok{) }\CommentTok{\#\%\textgreater{}\% filter(populacao \textgreater{} 100000)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   unique_key = col_character(),
+##   code_muni = col_double(),
+##   ano = col_double(),
+##   data = col_date(format = ""),
+##   mes = col_double(),
+##   temp = col_double(),
+##   precip = col_double(),
+##   feminicidio = col_double(),
+##   populacao = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Formando dummys}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{percent\_temp =} \FunctionTok{ntile}\NormalTok{(temp, }\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{(),}
+                 \AttributeTok{percent\_precip =} \FunctionTok{ntile}\NormalTok{(precip,}\DecValTok{5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.factor}\NormalTok{())}
+
+\CommentTok{\# criando variavel de tendencia linear}
+\NormalTok{df\_trend }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{(),}
+  \AttributeTok{trend =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{length}\NormalTok{())}
+\NormalTok{)}
+\NormalTok{dados }\OtherTok{\textless{}{-}}\NormalTok{ dados }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(df\_trend)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Joining, by = "data"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# fazendo code do municipio virar factor}
+\NormalTok{dados}\SpecialCharTok{$}\NormalTok{code\_muni }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(dados}\SpecialCharTok{$}\NormalTok{code\_muni)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# OLS}
+\NormalTok{model\_ols\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{feols}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+
+\DocumentationTok{\#\#\#\# Poisson}
+\NormalTok{model\_poisson\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fepois}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 5/5,111 fixed-effects (1,106,251 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Binomial Negativo}
+\NormalTok{model\_bn\_fixed }\OtherTok{\textless{}{-}} \FunctionTok{fenegbin}\NormalTok{(feminicidio  }\SpecialCharTok{\textasciitilde{}}\NormalTok{ percent\_temp }\SpecialCharTok{+}\NormalTok{ percent\_precip }\SpecialCharTok{|}\NormalTok{ data }\SpecialCharTok{+}\NormalTok{ code\_muni, dados)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: 5/5,111 fixed-effects (1,106,251 observations) removed because of only 0 outcomes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{etable}\NormalTok{(}\FunctionTok{list}\NormalTok{(model\_ols\_fixed,model\_poisson\_fixed,model\_bn\_fixed),}\AttributeTok{tex =}\NormalTok{ T,}\AttributeTok{dict =}\NormalTok{ nomes\_variaveis,}\AttributeTok{notes =} \StringTok{\textquotesingle{}Ola\textquotesingle{}}\NormalTok{,}\AttributeTok{se =} \StringTok{\textquotesingle{}cluster\textquotesingle{}}\NormalTok{,}\AttributeTok{cluster =} \StringTok{\textquotesingle{}code\_muni\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{lccc}
+\tabularnewline\midrule\midrule
+Dependent Variable:&\multicolumn{3}{c}{feminicidio}\\
+Model:&(1) & (2) & (3)\\
+ &  OLS & Poisson & Neg. Bin.\\
+\midrule \emph{Variables}&   &   &  \\
+Temperatura Celcius 13° - 15° & $-3.59\times 10^{-6}$ & -0.0266 & -0.0322\\
+  &(0.0002) & (0.2067) & (0.2044)\\
+Temperatura Celcius 15° - 16° & -0.0003 & -0.2962 & -0.2879\\
+  &(0.0002) & (0.2524) & (0.2420)\\
+Temperatura Celcius 16° - 18° & -0.0004 & -0.4352 & -0.4286\\
+  &(0.0003) & (0.2808) & (0.2755)\\
+Temperatura Celcius 18° - 19° & -0.0003 & -0.3525 & -0.3490\\
+  &(0.0003) & (0.3339) & (0.3271)\\
+Temperatura Celcius 19° - 21° & -0.0003 & -0.3171 & -0.2972\\
+  &(0.0003) & (0.3669) & (0.3607)\\
+Temperatura Celcius 21° - 22° & -0.0005 & -0.4984 & -0.4953\\
+  &(0.0004) & (0.4535) & (0.4385)\\
+Temperatura Celcius 22° - 24° & -0.0004 & -0.3834 & -0.3813\\
+  &(0.0004) & (0.5124) & (0.5018)\\
+Temperatura Celcius 24° - 25° & -0.0003 & -0.3193 & -0.3189\\
+  &(0.0004) & (0.5564) & (0.5445)\\
+Temperatura Celcius 25° - 31° & -0.0004 & -0.5446 & -0.5615\\
+  &(0.0005) & (0.6170) & (0.6015)\\
+Precipitação 6.7 - 23.1 mm & $6.11\times 10^{-5}$ & 0.0878 & 0.0855\\
+  &($8.53\times 10^{-5}$) & (0.1305) & (0.1328)\\
+Precipitação 23.1 - 56.6 mm & $6.39\times 10^{-5}$ & 0.0765 & 0.0642\\
+  &(0.0001) & (0.1512) & (0.1516)\\
+Precipitação 56.6 - 115.7 mm & $-3.72\times 10^{-5}$ & -0.0121 & -0.0189\\
+  &(0.0001) & (0.1659) & (0.1665)\\
+Precipitação 115.7 - 694.8 mm & -0.0001 & -0.1362 & -0.1498\\
+  &(0.0002) & (0.2018) & (0.2008)\\
+\midrule \emph{Fixed-effects}&   &   &  \\
+data & Yes & Yes & Yes\\
+code\_muni & Yes & Yes & Yes\\
+\midrule \emph{Fit statistics}&  & & \\
+Observations & 1,202,256&96,005&96,005\\
+Squared Correlation & 0.05704&0.05913&0.05648\\
+Pseudo R$^2$ & -0.01402&0.15502&0.14475\\
+BIC & -5,024,650.2&16,999.3&16,993.3\\
+Over-dispersion & &&1.9137\\
+\midrule\midrule\multicolumn{4}{l}{\emph{Clustered (code\_muni) standard-errors in parentheses}}\\
+\multicolumn{4}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+\end{tabular}
+
+\medskip \emph{Notes:} Ola
+
+\end{document}

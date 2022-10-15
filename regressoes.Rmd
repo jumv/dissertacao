@@ -1,0 +1,347 @@
+---
+title: "Untitled"
+author: "me"
+date: '2022-07-16'
+output:
+  pdf_document: 
+    extra_dependencies: ["booktabs"]
+    keep_tex: TRUE
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tictoc)
+library(furrr)
+library(plm)
+library(MASS)
+library(pscl)
+library(vcd)
+library(pglm)
+library(stargazer)
+library(fixest)
+source('src/utils.R')
+
+future::plan(multiprocess)
+```
+
+
+```{r}
+# lendo os dados
+dados <- read_csv('data/df_join.csv')
+```
+
+
+<!-- # Regressao tercil x tercil -->
+
+<!-- ```{r results='asis'} -->
+<!-- df <- create_percentis(dados,3,3) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,2) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = 'As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em tercis.  Os intervalos [17°C – 21.9°C) e [0 mm - 16.2 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.',se = 'cluster',cluster = 'code_muni',dict = names, -->
+<!-- title = 'Tabela A2: Impacto do clima no número de feminicídio do Brasil') -->
+<!-- ``` -->
+
+<!-- # Regressao quintil x quintil -->
+
+<!-- ```{r results='asis'} -->
+<!-- df <- create_percentis(dados,5,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,3) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = 'As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em quintis.  Os intervalos [18°C – 21°C) e [0 mm - 6.7 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.',se = 'cluster',cluster = 'code_muni',dict = names, -->
+<!--        title = 'Tabela A3: Impacto do clima no número de feminicídio do Brasil') -->
+<!-- ``` -->
+
+<!-- # Regressao decil x decil -->
+
+<!-- ```{r results='asis'} -->
+<!-- df <- create_percentis(dados,10,10) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,6) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = 'As colunas (1), (2) e (3) são referentes ao modelo MQO, Poisson e binomial negativa,com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decis.Os intervalos [19.5°C – 21°C] e [0 mm - 1.6 mm] são usados como padrão nas dummies de temperatura e precipitação.',se = 'cluster',cluster = 'code_muni',dict = names,title = 'Tabela A4: Impacto do clima no número de feminicídio do Brasil') -->
+<!-- ``` -->
+
+<!-- # Regressao +100000 tercil x tercil -->
+
+<!-- ```{r results='asis'} -->
+<!-- df <- filter_population(dados,100000) -->
+<!-- df <- create_percentis(df,3,3) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,2) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,se = 'cluster',cluster = 'code_muni',dict = names, -->
+<!--        notes = 'As colunas (1), (2) e (3) são referentes ao modelo MQO, Poisson e binomial negativa,com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em tercis.Os intervalos [16°C – 20.7°C] e [0 mm - 25.1 mm] são usados como padrão nas dummies de temperatura e precipitação.', -->
+<!--        title = 'Tabela A10: Impacto do clima no número de feminicídio do Brasil para municípios acima de 100 mil habitantes') -->
+<!-- ``` -->
+
+<!-- # Regressao +100000 quintil x quintil -->
+
+<!-- ```{r results='asis'} -->
+<!-- df <- filter_population(dados,100000) -->
+<!-- df <- create_percentis(df,5,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,3) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,se = 'cluster',cluster = 'code_muni',dict = names, -->
+<!--        notes = 'As colunas (1), (2) e (3) são referentes ao modelo MQO, Poisson e binomial negativa,com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em quintis.Os intervalos [16.7°C –19.6°C] e [0 mm - 11.4 mm] são usados como padrão nas dummies de temperatura e precipitação.', -->
+<!--        title = 'Tabela A11: Impacto do clima no número de feminicídio do Brasil para municípios acima de 100 mil habitantes') -->
+<!-- ``` -->
+
+
+<!-- # Regressao +100000 decil x decil -->
+
+<!-- ```{r results='asis'} -->
+<!-- df <- filter_population(dados,100000) -->
+<!-- df <- create_percentis(df,10,10) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,6) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,se = 'cluster',cluster = 'code_muni',dict = names, -->
+<!--        notes = 'As colunas (1), (2) e (3) são referentes ao modelo MQO, Poisson e binomial negativa,com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decis.Os intervalos [18°C –19.6°C] e [0 mm - 3.8 mm] são usados como padrão nas dummies de temperatura e precipitação.', -->
+<!--        title = 'Tabela A12: Impacto do clima no número de feminicídio do Brasil para municípios acima de 100 mil habitantes') -->
+<!-- ``` -->
+
+<!-- # Regressao original -->
+
+<!-- ```{r results='asis'} -->
+<!-- df <- create_percentis(dados,10,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,6) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano.', -->
+<!-- 'Os intervalos [19.5°C – 21°C) e [0 mm -23.4 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'Tabela 1: Impacto do clima no número de feminicídio do Brasil') -->
+<!-- ``` -->
+
+
+<!-- # Regressao original +100000 -->
+
+<!-- ```{r results='asis'} -->
+<!-- df <- filter_population(dados,100000) -->
+<!-- df <- create_percentis(df,10,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,6) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano.', -->
+<!-- 'Os intervalos [18°C – 19.6°C) e [0 mm -11.4 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'Tabela 2: Impacto do clima no número de feminicídio do Brasil para municípios acima de 100 mil habitantes') -->
+<!-- ``` -->
+
+<!-- # Regressao arbitraria +100000 -->
+
+<!-- ```{r results='asis'} -->
+<!-- df <- filter_population(dados,100000) -->
+<!-- df <- df %>% mutate(x_temp = case_when( -->
+<!--   temp <= 15 ~ 'Inverno', -->
+<!--   (temp > 15) & (temp <= 24) ~ 'Outono', -->
+<!--   (temp > 24) & (temp <= 30) ~ 'Primavera', -->
+<!--   temp > 30 ~ 'Verão'), -->
+<!--   x_precip = case_when( -->
+<!--   precip <= 5 ~ 'Fraca', -->
+<!--   (precip > 5) & (precip <= 25) ~ 'Moderada', -->
+<!--   (precip > 25) & (precip <= 50) ~ 'Forte', -->
+<!--   precip > 50 ~ 'Torrencial')) -->
+<!-- #df <- create_percentis(df,10,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- #### OLS -->
+<!-- model_ols_fixed <- feols(feminicidio  ~ x_temp + x_precip | data + code_muni, df) -->
+
+<!-- #### Poisson -->
+<!-- model_poisson_fixed <- fepois(feminicidio  ~ x_temp + x_precip | data + code_muni, df) -->
+
+<!-- #### Binomial Negativo -->
+<!-- model_bn_fixed <- fenegbin(feminicidio  ~ x_temp + x_precip | data + code_muni, df) -->
+<!-- etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = T,notes = 'Ola',se = 'cluster',cluster = 'code_muni') -->
+<!-- ``` -->
+
+# Regressao original com lead
+
+```{r results='asis'}
+df <- create_lead(dados,n = 1)
+df <- create_percentis(df,10,5)
+df <- creat_linear_tend_fact_muni(df)
+names <- create_name_variables(df)
+df <- change_ref(df,6)
+list_regressions <- make_regressions(df)
+etable(list_regressions,tex = T,
+       notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano e lead de (t + 1). Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [19.5°C – 21°C) e [0 mm - 6.7 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A5.2: Impacto do clima no número de feminicídio do Brasil com lead')
+```
+
+# Regressao original com lag
+
+```{r results='asis'}
+df <- create_lag(dados,n = 1)
+df <- create_percentis(df,10,5)
+df <- creat_linear_tend_fact_muni(df)
+names <- create_name_variables(df)
+df <- change_ref(df,6)
+list_regressions <- make_regressions(df)
+etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano e lag de (t - 1). Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [19.5°C – 21°C) e [0 mm - 6.7 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A5.1: Impacto do clima no número de feminicídio do Brasil com lag')
+```
+
+# Regressao original com lead +100000
+
+```{r results='asis'}
+df <- filter_population(dados,100000)
+df <- create_lead(df,n = 1)
+df <- create_percentis(df,10,5)
+df <- creat_linear_tend_fact_muni(df)
+names <- create_name_variables(df)
+df <- change_ref(df,6)
+list_regressions <- make_regressions(df)
+etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano e lead de (t + 1). Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [18.1°C – 19.6°C) e [0 mm - 10.9 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A13: Impacto do clima no número de feminicídio do Brasil com lead para municípios acima de 100 mil habitantes')
+```
+
+
+# Regressao original com lag +100000
+
+```{r results='asis'}
+df <- filter_population(dados,100000)
+df <- create_lag(df,n = 1)
+df <- create_percentis(df,10,5)
+df <- creat_linear_tend_fact_muni(df)
+names <- create_name_variables(df)
+df <- change_ref(df,6)
+list_regressions <- make_regressions(df)
+etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano e lag de (t - 1). Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [18.1°C – 19.6°C) e [0 mm - 11.4 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A14: Impacto do clima no número de feminicídio do Brasil com lag para municípios acima de 100 mil habitantes')
+```
+
+
+<!-- # Regressao com raca negra -->
+
+<!-- ```{r results='asis'} -->
+<!-- # lendo os dados -->
+<!-- dados <- read_csv('data/df_join_negro.csv') -->
+<!-- df <- create_percentis(dados,10,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,6) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [19.5°C – 21°C) e [0 mm - 6.7 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A6: Impacto do clima no número de feminicídio do Brasil para mulheres negras') -->
+
+<!-- ``` -->
+
+<!-- # Regressao com raca negra + 100000 -->
+
+<!-- ```{r results='asis'} -->
+<!-- # lendo os dados -->
+<!-- dados <- read_csv('data/df_join_negro.csv') -->
+<!-- df <- filter_population(dados,100000) -->
+<!-- df <- create_percentis(df,10,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,6) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [18°C – 19.6°C) e [7.2 mm - 13.2 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A15: Impacto do clima no número de feminicídio do Brasil para mulheres negras e municípios acima de 100 mil habitantes') -->
+
+<!-- ``` -->
+
+
+
+
+<!-- <!-- # Regressao com raca branca --> -->
+
+<!-- <!-- ```{r results='asis'} --> -->
+<!-- <!-- # lendo os dados --> -->
+<!-- <!-- dados <- read_csv('data/df_join_branco.csv') --> -->
+<!-- <!-- df <- create_percentis(dados,10,5) --> -->
+<!-- <!-- df <- creat_linear_tend_fact_muni(df) --> -->
+<!-- <!-- names <- create_name_variables(df) --> -->
+<!-- <!-- df <- change_ref(df,6) --> -->
+<!-- <!-- list_regressions <- make_regressions(df) --> -->
+<!-- <!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [19.5°C – 21°C) e [0 mm - 6.7 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A7: Impacto do clima no número de feminicídio do Brasil para mulheres brancas') --> -->
+
+<!-- <!-- ``` --> -->
+
+<!-- # Regressao com raca branca + 1000000 -->
+
+<!-- ```{r results='asis'} -->
+<!-- # lendo os dados -->
+<!-- dados <- read_csv('data/df_join_branco.csv') -->
+<!-- df <- filter_population(dados,100000) -->
+<!-- df <- create_percentis(df,10,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,6) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [18°C – 19.6°C) e [7.2 mm - 13.2 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A16: Impacto do clima no número de feminicídio do Brasil para mulheres brancas e municípios acima de 100 mil habitantes') -->
+
+<!-- ``` -->
+
+
+
+<!-- <!-- # Regressao com ate 12 anos --> -->
+
+<!-- <!-- ```{r results='asis'} --> -->
+<!-- <!-- # lendo os dados --> -->
+<!-- <!-- dados <- read_csv('data/df_join_ate_12anos.csv') --> -->
+<!-- <!-- df <- create_percentis(dados,10,5) --> -->
+<!-- <!-- df <- creat_linear_tend_fact_muni(df) --> -->
+<!-- <!-- names <- create_name_variables(df) --> -->
+<!-- <!-- df <- change_ref(df,6) --> -->
+<!-- <!-- list_regressions <- make_regressions(df) --> -->
+<!-- <!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [19.5°C – 21°C) e [0 mm - 6.7 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A8: Impacto do clima no número de feminicídio do Brasil para mulheres com ate 12 anos de estudo') --> -->
+<!-- <!-- ``` --> -->
+
+
+<!-- # Regressao com ate 12 anos + 1000000 -->
+
+<!-- ```{r results='asis'} -->
+<!-- # lendo os dados -->
+<!-- dados <- read_csv('data/df_join_ate_12anos.csv') -->
+<!-- df <- filter_population(dados,100000) -->
+<!-- df <- create_percentis(df,10,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,6) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [18°C – 19.6°C) e [7.2 mm - 13.2 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A17: Impacto do clima no número de feminicídio do Brasil para mulheres com ate 12 anos de estudo e municípios acima de 100 mil habitantes') -->
+
+<!-- ``` -->
+
+
+
+<!-- <!-- # Regressao com ate + 12 --> -->
+
+<!-- <!-- ```{r results='asis'} --> -->
+<!-- <!-- # lendo os dados --> -->
+<!-- <!-- dados <- read_csv('data/df_join_12anos+.csv') --> -->
+<!-- <!-- df <- create_percentis(dados,10,5) --> -->
+<!-- <!-- df <- creat_linear_tend_fact_muni(df) --> -->
+<!-- <!-- names <- create_name_variables(df) --> -->
+<!-- <!-- df <- change_ref(df,6) --> -->
+<!-- <!-- list_regressions <- make_regressions(df) --> -->
+<!-- <!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [19.5°C – 21°C) e [0 mm - 6.7 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A9: Impacto do clima no número de feminicídio do Brasil para mulheres com mais de 12 anos de estudo') --> -->
+<!-- <!-- ``` --> -->
+
+<!-- # Regressao com ate + 12 1000000 -->
+
+<!-- ```{r results='asis'} -->
+<!-- # lendo os dados -->
+<!-- dados <- read_csv('data/df_join_12anos+.csv') -->
+<!-- df <- filter_population(dados,100000) -->
+<!-- df <- create_percentis(df,10,5) -->
+<!-- df <- creat_linear_tend_fact_muni(df) -->
+<!-- names <- create_name_variables(df) -->
+<!-- df <- change_ref(df,6) -->
+<!-- list_regressions <- make_regressions(df) -->
+<!-- etable(list_regressions,tex = T,notes = c('As colunas (1), (2) e (3) são referentes ao modelo simples de mínimos quadrados ordinários, Poisson e binomial negativa, respectivamente, com efeito fixo de região e tempo mês-ano. Os espectros de temperatura e precipitação foram divididos em decil e quintil, respectivamente. Os intervalos [18°C – 19.6°C) e [7.2 mm - 13.2 mm) são usados como padrão nas dummies de temperatura e precipitação, respectivamente. Significância: ***p<0.01, **p<0.05, *p<0.1.'),se = 'cluster',cluster = 'code_muni',dict = names,title = 'TABELA A18: Impacto do clima no número de feminicídio do Brasil para mulheres com mais de 12 anos de estudo e municípios acima de 100 mil habitantes') -->
+
+<!-- ``` -->

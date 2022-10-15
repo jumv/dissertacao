@@ -1,0 +1,346 @@
+---
+title: "Untitled"
+author: "me"
+date: '2022-07-16'
+output:
+  pdf_document: 
+    extra_dependencies: ["booktabs"]
+    keep_tex: TRUE
+  html_document: default
+---
+
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tictoc)
+library(furrr)
+library(plm)
+library(MASS)
+library(pscl)
+library(vcd)
+library(pglm)
+library(stargazer)
+library(fixest)
+
+future::plan(multiprocess)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+# lendo os dados
+dados <- read_csv('data/df_join.csv')
+
+# Formando dummys
+dados <- dados %>% mutate(percent_temp = ntile(temp, 10) %>% as.factor(),
+                 percent_precip = ntile(precip,5) %>% as.factor())
+
+# criando variavel de tendencia linear
+df_trend <- tibble(
+  data = dados$data %>% unique(),
+  trend = 1:(dados$data %>% unique() %>% length())
+)
+dados <- dados %>% left_join(df_trend)
+
+# fazendo code do municipio virar factor
+dados$code_muni <- as.factor(dados$code_muni)
+```
+
+
+
+```{r results='asis'}
+#dados %>% group_by(percent_temp) %>% summarise(lim_inf = min(temp),lim_sup = max(temp))
+#dados %>% group_by(percent_precip) %>% summarise(lim_inf = min(precip),lim_sup = max(precip))
+nomes_variaveis <- c(
+  percent_temp2 = "Temperatura Celcius 13° - 15°",
+  percent_temp3 = "Temperatura Celcius 15° - 16°",
+  percent_temp4 = "Temperatura Celcius 16° - 18°",
+  percent_temp5 = "Temperatura Celcius 18° - 19°",
+  percent_temp6 = "Temperatura Celcius 19° - 21°",
+  percent_temp7 = "Temperatura Celcius 21° - 22°",
+  percent_temp8 = "Temperatura Celcius 22° - 24°",
+  percent_temp9 = "Temperatura Celcius 24° - 25°",
+  percent_temp10 = "Temperatura Celcius 25° - 31°",
+  percent_precip2 = "Precipitação 6.7 - 23.1 mm",
+  percent_precip3 = "Precipitação 23.1 - 56.6 mm",
+  percent_precip4 = "Precipitação 56.6 - 115.7 mm",
+  percent_precip5 = "Precipitação 115.7 - 694.8 mm")
+```
+
+
+
+# Regressao 1
+
+```{r}
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Poisson
+model_poisson_fixed <- fepois(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+```
+
+
+```{r results='asis'}
+etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = T,dict = nomes_variaveis,notes = 'Ola',se = 'cluster',cluster = 'code_muni')
+```
+
+
+# Lead
+
+```{r}
+## Testando com lead
+
+dados_lead <- dados %>% mutate(lead_temp = as.factor(dplyr::lead(as.character(percent_temp))),
+                 lead_precip = as.factor(dplyr::lead(as.character(percent_precip))))
+
+### Com efeitos fixos
+
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ lead_temp + lead_precip| data + code_muni, dados_lead)
+
+#### Poisson
+model_poisson_fixed <- fepois(feminicidio  ~ lead_temp + lead_precip| data + code_muni, dados_lead)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ lead_temp + lead_precip| data + code_muni, dados_lead)
+
+etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = T,notes = 'Ola',se = 'cluster',cluster = 'code_muni')
+```
+
+
+# Testando com cidades + 100.000
+
+```{r}
+# lendo os dados
+dados <- read_csv('data/df_join.csv') %>% filter(populacao > 100000)
+
+# Formando dummys
+dados <- dados %>% mutate(percent_temp = ntile(temp, 10) %>% as.factor(),
+                 percent_precip = ntile(precip,5) %>% as.factor())
+
+# criando variavel de tendencia linear
+df_trend <- tibble(
+  data = dados$data %>% unique(),
+  trend = 1:(dados$data %>% unique() %>% length())
+)
+dados <- dados %>% left_join(df_trend)
+
+# fazendo code do municipio virar factor
+dados$code_muni <- as.factor(dados$code_muni)
+```
+
+```{r}
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Poisson
+model_poisson_fixed <- fepois(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = T,notes = 'Ola',se = 'cluster',cluster = 'code_muni')
+```
+
+
+# Testando com distribuicao a priori cidade + 100000
+
+```{r}
+
+# lendo os dados
+dados <- read_csv('data/df_join.csv') #%>% filter(populacao > 100000)
+dados <- dados %>% mutate(x_temp = case_when(
+  temp <= 15 ~ 'Inverno',
+  (temp > 15) & (temp <= 24) ~ 'Outono',
+  (temp > 24) & (temp <= 30) ~ 'Primavera',
+  temp > 30 ~ 'Verão'),
+  x_precip = case_when(
+  precip <= 5 ~ 'Fraca',
+  (precip > 5) & (precip <= 25) ~ 'Moderada',
+  (precip > 25) & (precip <= 50) ~ 'Forte',
+  precip > 50 ~ 'Torrencial'))
+
+# criando variavel de tendencia linear
+df_trend <- tibble(
+  data = dados$data %>% unique(),
+  trend = 1:(dados$data %>% unique() %>% length())
+)
+dados <- dados %>% left_join(df_trend)
+
+# fazendo code do municipio virar factor
+dados$code_muni <- as.factor(dados$code_muni)
+
+# Fazendo com que 
+dados$x_temp <- factor(dados$x_temp,ordered = F)
+dados <- dados %>% mutate(x_temp = relevel(x_temp,ref = 'Primavera'))
+```
+
+
+```{r results='asis'}
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ x_temp + x_precip | data + code_muni, dados)
+
+#### Poisson
+model_poisson_fixed <- fepois(feminicidio  ~ x_temp + x_precip | data + code_muni, dados)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ x_temp + x_precip | data + code_muni, dados)
+
+etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = F,notes = 'Ola',se = 'cluster',cluster = 'code_muni')
+```
+
+
+# Testando por raca preta
+
+```{r}
+# lendo os dados
+dados <- read_csv('data/df_join_negro.csv') #%>% filter(populacao > 100000)
+
+
+
+# Formando dummys
+dados <- dados %>% mutate(percent_temp = ntile(temp, 10) %>% as.factor(),
+                 percent_precip = ntile(precip,5) %>% as.factor())
+
+# criando variavel de tendencia linear
+df_trend <- tibble(
+  data = dados$data %>% unique(),
+  trend = 1:(dados$data %>% unique() %>% length())
+)
+dados <- dados %>% left_join(df_trend)
+
+# fazendo code do municipio virar factor
+dados$code_muni <- as.factor(dados$code_muni)
+```
+
+```{r results='asis'}
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Poisson
+model_poisson_fixed <- fepois(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = T,dict = nomes_variaveis,notes = 'Ola',se = 'cluster',cluster = 'code_muni')
+```
+
+# Testando por raca branco
+
+```{r}
+# lendo os dados
+dados <- read_csv('data/df_join_branco.csv') #%>% filter(populacao > 100000)
+
+
+
+# Formando dummys
+dados <- dados %>% mutate(percent_temp = ntile(temp, 10) %>% as.factor(),
+                 percent_precip = ntile(precip,5) %>% as.factor())
+
+# criando variavel de tendencia linear
+df_trend <- tibble(
+  data = dados$data %>% unique(),
+  trend = 1:(dados$data %>% unique() %>% length())
+)
+dados <- dados %>% left_join(df_trend)
+
+# fazendo code do municipio virar factor
+dados$code_muni <- as.factor(dados$code_muni)
+```
+
+```{r results='asis'}
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Poisson
+model_poisson_fixed <- fepois(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = T,dict = nomes_variaveis,notes = 'Ola',se = 'cluster',cluster = 'code_muni')
+```
+
+# Testando por ate 12 anos
+
+
+```{r}
+# lendo os dados
+dados <- read_csv('data/df_join_ate_12anos.csv') #%>% filter(populacao > 100000)
+
+
+
+# Formando dummys
+dados <- dados %>% mutate(percent_temp = ntile(temp, 10) %>% as.factor(),
+                 percent_precip = ntile(precip,5) %>% as.factor())
+
+# criando variavel de tendencia linear
+df_trend <- tibble(
+  data = dados$data %>% unique(),
+  trend = 1:(dados$data %>% unique() %>% length())
+)
+dados <- dados %>% left_join(df_trend)
+
+# fazendo code do municipio virar factor
+dados$code_muni <- as.factor(dados$code_muni)
+```
+
+```{r results='asis'}
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Poisson
+model_poisson_fixed <- fepois(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = T,dict = nomes_variaveis,notes = 'Ola',se = 'cluster',cluster = 'code_muni')
+```
+
+# Testando por + 12 anos
+
+
+```{r}
+# lendo os dados
+dados <- read_csv('data/df_join_12anos+.csv') #%>% filter(populacao > 100000)
+
+
+
+# Formando dummys
+dados <- dados %>% mutate(percent_temp = ntile(temp, 10) %>% as.factor(),
+                 percent_precip = ntile(precip,5) %>% as.factor())
+
+# criando variavel de tendencia linear
+df_trend <- tibble(
+  data = dados$data %>% unique(),
+  trend = 1:(dados$data %>% unique() %>% length())
+)
+dados <- dados %>% left_join(df_trend)
+
+# fazendo code do municipio virar factor
+dados$code_muni <- as.factor(dados$code_muni)
+```
+
+```{r results='asis'}
+#### OLS
+model_ols_fixed <- feols(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Poisson
+model_poisson_fixed <- fepois(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+#### Binomial Negativo
+model_bn_fixed <- fenegbin(feminicidio  ~ percent_temp + percent_precip | data + code_muni, dados)
+
+etable(list(model_ols_fixed,model_poisson_fixed,model_bn_fixed),tex = T,dict = nomes_variaveis,notes = 'Ola',se = 'cluster',cluster = 'code_muni')
+```
+
+
+
